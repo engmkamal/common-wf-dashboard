@@ -1532,11 +1532,16 @@ export class ParentreportlandingComponent implements OnInit, AfterViewInit {
     const detListname = i.config.DetailsListInfo[0].name;
     const detSelQry = i.config.DetailsListInfo[0].select;
 
+    const rendListname = i.config.RenderDetListInfo[0].name;
+    const rendSelQry = i.config.RenderDetListInfo[0].select;
+
     let mstApiUrl = "https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('" + mstListname + "')/items?&$top=2000000&$select=" + mstSelQry + "";
     let detApiUrl = "https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('" + detListname + "')/items?&$top=2000000&$select=" + detSelQry + "";
-
+    let rendApiUrl = "https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('" + rendListname + "')/items?&$top=2000000&$select=" + rendSelQry + "";
+    
     let mstTblKeyFld = "";
     let detTblKeyFld = "";
+    let rendTblKeyFld = "";
 
     if (Object.prototype.hasOwnProperty.call(this.dashboardsListsInfo[i.listIndex].MasterListInfo, 'primaryKey') && this.dashboardsListsInfo[i.listIndex].MasterListInfo.primaryKey != "") {
       mstTblKeyFld = this.dashboardsListsInfo[i.listIndex].MasterListInfo.primaryKey;
@@ -1546,6 +1551,10 @@ export class ParentreportlandingComponent implements OnInit, AfterViewInit {
       detTblKeyFld = this.dashboardsListsInfo[i.listIndex].DetailsListInfo[0].primaryKey;
     }
 
+    if (Object.prototype.hasOwnProperty.call(this.dashboardsListsInfo[i.listIndex].RenderDetListInfo[0], 'primaryKey') && this.dashboardsListsInfo[i.listIndex].RenderDetListInfo[0].primaryKey != "") {
+      rendTblKeyFld = this.dashboardsListsInfo[i.listIndex].RenderDetListInfo[0].primaryKey;
+    }
+
     //--------------
     return new Promise((resolve, reject)=>{ 
       if(this.logedInUser.access != 'NoAccess'){
@@ -1553,23 +1562,48 @@ export class ParentreportlandingComponent implements OnInit, AfterViewInit {
         if(this.logedInUser.office != "Corporate"){
           mstApiUrl = `https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('${mstListname}')/items?&$top=2000000&$select=${mstSelQry}&$filter=substringof('${this.logedInUser.office}', Author/Office ) `; 
           detApiUrl = `https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('${detListname}')/items?&$top=2000000&$select=${detSelQry}&$filter=substringof('${this.logedInUser.office}', Author/Office ) `; 
+          rendApiUrl = `https://portal.bergerbd.com/leaveauto/_api/web/lists/getByTitle('${rendListname}')/items?&$top=2000000&$select=${rendSelQry}&$filter=substringof('${this.logedInUser.office}', Author/Office ) `; 
         }
           try {
             //==========implementing forkJoin ============
             from(forkJoin({
               masterTbl: this.httpClient.get<any[]>(mstApiUrl),
-              exclusiveTbl: this.httpClient.get<any[]>(detApiUrl)
+              exclusiveTbl: this.httpClient.get<any[]>(detApiUrl),
+              renderTbl: this.httpClient.get<any[]>(rendApiUrl)
             }))
-            .subscribe(({masterTbl, exclusiveTbl }) => { 
+            .subscribe(({masterTbl, exclusiveTbl, renderTbl }) => { 
               
+              const rendTblDta = (JSON.parse(JSON.stringify(renderTbl))).value;
+              let rendMappedTblDta:any = [];
+
+              rendTblDta.forEach((rndEl:any) => {
+
+                if(rndEl.Status == 'GMFPMToCFO'){
+                  rendMappedTblDta.push({
+                    Title: rndEl.Title,
+                    GMFPMToCFO: rendTblDta.find((r1:any) => (rndEl.Title == r1['Title'] && r1['Status'] == 'GMFPMToCFO')),
+                    //CFOToMD: rendTblDta.find((r1:any) => (rndEl.Title == r1['Title'] && r1['Status'] == 'CFOToMD')),
+                    //MDToAssetManager: rendTblDta.find((r1:any) => (rndEl.Title == r1['Title'] && r1['Status'] == 'MDToAssetManager')),                  
+                  })
+                }
+                
+              });
+
               const detTblDta = (JSON.parse(JSON.stringify(exclusiveTbl))).value;
               this.rowData = detTblDta;
               const mstTblDta = (JSON.parse(JSON.stringify(masterTbl))).value;      
 
               const detailMasterData = detTblDta.map((t1:any) => ({                                     
                 ...t1,
-                ...mstTblDta.find((t2:any) => t2[mstTblKeyFld] == t1[detTblKeyFld])
+                ...mstTblDta.find((t2:any) => t2[mstTblKeyFld] == t1[detTblKeyFld]),
+                ...rendMappedTblDta.find((r2:any) => t1['Title'] == r2['Title'])
               }));
+
+              // const RendDetailMasterData = rendTblDta.map((t3:any) => ({                                     
+              //   ...detailMasterData,
+              //   ...detailMasterData.find((d1:any) => (d1['Title'] == t3['Title'] && t3['Status'] == 'GMFPMToCFO'))
+              // }));
+
               this.rowData = detailMasterData;
               resolve(this.rowData);
             });
@@ -1932,8 +1966,8 @@ export class ParentreportlandingComponent implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
-    //const dbListsInfoUrl = "https://portal.bergerbd.com/Style Library/Dashboard/V1/assets/dashboardslistsinfo.ts";
-    const dbListsInfoUrl = "http://localhost:4206/assets/dashboardslistsinfo.ts";
+    const dbListsInfoUrl = "https://portal.bergerbd.com/Style Library/CapexBudgetReport/V1/assets/dashboardslistsinfo.ts";
+    //const dbListsInfoUrl = "http://localhost:4206/assets/dashboardslistsinfo.ts";
     this.httpClient.get(dbListsInfoUrl).subscribe(data =>{
       this.dashboardsListsInfo = data;
       if(this.dashboardsListsInfo.length >0){

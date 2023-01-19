@@ -1866,8 +1866,8 @@ export class ParentdashboardlandingComponent implements OnInit, AfterViewInit {
     //   ] 
 
     // //////-------------testing ends ---------------
-    //const dbListsInfoUrl = "https://portal.bergerbd.com/Style Library/Dashboard/V1/assets/dashboardslistsinfo.ts";
-    const dbListsInfoUrl = "http://localhost:4206/assets/dashboardslistsinfo.ts";
+    const dbListsInfoUrl = "https://portal.bergerbd.com/Style Library/CapexBudgetReport/V1/assets/dashboardslistsinfo.ts";
+    //const dbListsInfoUrl = "http://localhost:4206/assets/dashboardslistsinfo.ts";
     this.httpClient.get(dbListsInfoUrl).subscribe(data =>{
       this.dashboardsListsInfo = data;
       if(this.dashboardsListsInfo.length >0){
