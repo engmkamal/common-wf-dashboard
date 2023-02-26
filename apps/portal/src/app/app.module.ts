@@ -27,13 +27,6 @@ import { loadRemoteModule } from '@nrwl/angular/mf';
             ),
         },
         {
-          path: 'support',
-          loadChildren: () =>
-            loadRemoteModule('support', './Module').then(
-              (m) => m.RemoteEntryModule
-            ),
-        },
-        {
           path: 'wfdashboard',
           loadChildren: () =>
             loadRemoteModule('wfdashboard', './Module').then(

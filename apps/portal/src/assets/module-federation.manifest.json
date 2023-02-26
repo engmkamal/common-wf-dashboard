@@ -1,7 +1,6 @@
 {
   "login": "http://localhost:4201",
   "itservicerequest": "http://localhost:4202",
-  "support": "http://localhost:4203",
   "wfdashboard": "http://localhost:4204",
   "itaccessoriesdashboard": "http://localhost:4205",
   "colorbankdashboard": "http://localhost:4206",

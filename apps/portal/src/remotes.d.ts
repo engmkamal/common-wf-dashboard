@@ -2,7 +2,7 @@ declare module 'login/Module';
 
 declare module 'itservicerequest/Module';
 
-declare module 'support/Module';
+//declare module 'support/Module';
 
 declare module 'wfdashboard/Module';
 

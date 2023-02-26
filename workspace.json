@@ -19,8 +19,6 @@
     "shared-data-access-user": "libs/shared/data-access-user",
     "stationaryitemsdashboard": "apps/stationaryitemsdashboard",
     "stationaryitemsdashboard-e2e": "apps/stationaryitemsdashboard-e2e",
-    "support": "apps/support",
-    "support-e2e": "apps/support-e2e",
     "travelrequestdashboard": "apps/travelrequestdashboard",
     "travelrequestdashboard-e2e": "apps/travelrequestdashboard-e2e",
     "ui": "libs/ui",
