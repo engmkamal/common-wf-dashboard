@@ -7,10 +7,10 @@ This project was generated using [Nx](https://nx.dev).
 
 apps >> wfdashboard is being devepoled as common dashboard for any SharePoint WF admin dashboard
 
-<p style="text-align: center;"><img src="https://github.com/engmkamal/sample-test-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard1.ts.png" width="450"></p>
-<p style="text-align: center;"><img src="https://github.com/engmkamal/sample-test-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard2.ts.png" width="450"></p>
-<p style="text-align: center;"><img src="https://github.com/engmkamal/sample-test-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard3.ts.png" width="450"></p>
-<p style="text-align: center;"><img src="https://github.com/engmkamal/sample-test-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard4.ts.png" width="450"></p>
+<p style="text-align: center;"><img src="https://github.com/engmkamal/common-wf-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard1.png" width="450"></p>
+<p style="text-align: center;"><img src="https://github.com/engmkamal/common-wf-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard2.png" width="450"></p>
+<p style="text-align: center;"><img src="https://github.com/engmkamal/common-wf-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboard3.png" width="450"></p>
+<p style="text-align: center;"><img src="https://github.com/engmkamal/common-wf-dashboard/blob/main/apps/wfdashboard/src/assets/commomdashboarda4.png" width="450"></p>
 
 🔎 **Smart, Fast and Extensible Build System**
 
