@@ -5,6 +5,7 @@
 This project was generated using [Nx](https://nx.dev).
 
 apps >> colorbankdashboard is being devepoled as capexbudgetreport
+apps >> wfdashboard is being devepoled as common dashboard for any SharePoint WF admin dashboard
 
 <p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
 
